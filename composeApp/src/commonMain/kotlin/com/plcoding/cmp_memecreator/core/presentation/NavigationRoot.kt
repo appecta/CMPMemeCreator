@@ -7,7 +7,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.plcoding.cmp_memecreator.meme_editor.presentation.MemeEditorRoot
-import com.plcoding.cmp_memecreator.meme_editor.presentation.MemeEditorScreen
 import com.plcoding.cmp_memecreator.meme_gallery.presentation.MemeGalleryScreen
 
 @Composable
@@ -30,7 +29,10 @@ fun NavigationRoot() {
                 memeTemplates.first { it.id == templateId }
             }
             MemeEditorRoot(
-                template = template
+                template = template,
+                onGoBack = {
+                    navController.navigateUp()
+                }
             )
         }
     }
