@@ -33,7 +33,7 @@ import cmpmemecreator.composeapp.generated.resources.cancel
 import cmpmemecreator.composeapp.generated.resources.leave
 import cmpmemecreator.composeapp.generated.resources.leave_editor_message
 import cmpmemecreator.composeapp.generated.resources.leave_editor_title
-import cmpmemecreator.composeapp.generated.resources.meme_template_01
+import cmpmemecreator.composeapp.generated.resources.meme_template_1
 import com.plcoding.cmp_memecreator.core.presentation.MemeTemplate
 import com.plcoding.cmp_memecreator.core.theme.MemeCreatorTheme
 import com.plcoding.cmp_memecreator.meme_editor.presentation.components.BottomBar
@@ -190,7 +190,7 @@ private fun Preview() {
         MemeEditorScreen(
             template = MemeTemplate(
                 id = "meme_template_01",
-                drawable = Res.drawable.meme_template_01
+                drawable = Res.drawable.meme_template_1
             ),
             state = MemeEditorState(),
             onAction = {}

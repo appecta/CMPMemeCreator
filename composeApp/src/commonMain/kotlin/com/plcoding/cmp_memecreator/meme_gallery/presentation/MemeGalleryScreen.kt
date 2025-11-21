@@ -3,29 +3,46 @@
 package com.plcoding.cmp_memecreator.meme_gallery.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import cmpmemecreator.composeapp.generated.resources.Res
 import cmpmemecreator.composeapp.generated.resources.meme_templates
 import com.plcoding.cmp_memecreator.core.presentation.MemeTemplate
-import com.plcoding.cmp_memecreator.core.presentation.memeTemplates
+import com.plcoding.cmp_memecreator.core.presentation.MemeTemplates
+import com.plcoding.cmp_memecreator.core.presentation.MemeTemplates.memeTemplates
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -37,9 +54,35 @@ fun MemeGalleryScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(Res.string.meme_templates)
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.meme_templates)
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .padding(end = 15.dp)
+                                .size(50.dp)
+                                .clip(CircleShape)
+                                .background(Color.Gray)
+                                .clickable{
+                                    MemeTemplates.shuffle()
+                                }
+                                ,
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = "refresh",
+                                tint = Color.White,
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -57,7 +100,6 @@ fun MemeGalleryScreen(
         ) {
             items(
                 items = memeTemplates,
-                key = { it.id }
             ) { memeTemplate ->
                 Card(
                     onClick = {

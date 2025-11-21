@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.plcoding.cmp_memecreator.core.presentation.MemeTemplates.memeTemplates
 import com.plcoding.cmp_memecreator.meme_editor.presentation.MemeEditorRoot
 import com.plcoding.cmp_memecreator.meme_gallery.presentation.MemeGalleryScreen
 
