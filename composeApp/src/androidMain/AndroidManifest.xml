@@ -20,7 +20,7 @@
         </activity>
 
         <provider
-            android:authorities="com.plcoding.cmp_memecreator.fileprovider"
+            android:authorities="com.eag.tflmeme.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

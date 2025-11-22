@@ -1,5 +1,7 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
+
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -7,6 +9,35 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.serialization)
+    id("com.codingfeline.buildkonfig") version "0.17.1"
+}
+
+buildkonfig {
+    packageName = "com.plcoding.cmp_memecreator"
+
+    defaultConfigs {
+        val localProperties = Properties()
+
+        val localPropertiesFile = rootProject.file("local.properties")
+
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use {
+                localProperties.load(it)
+            }
+        } else {
+            println("WARNING: local.properties file not found at ${localPropertiesFile.absolutePath}. Ensure your API_KEY is set via environment variable or in CI.")
+        }
+
+        val apiKey = localProperties.getProperty("API_KEY")
+        val apiUrl = localProperties.getProperty("API_URL")
+
+        require(!apiKey.isNullOrEmpty()) {
+            "Register your api key from developer and place it in local.properties as `API_KEY`"
+        }
+
+        buildConfigField(Type.STRING, "API_KEY", apiKey)
+        buildConfigField(Type.STRING, "API_URL", apiUrl)
+    }
 }
 
 kotlin {
@@ -32,6 +63,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.bundles.koin.android)
+
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -52,9 +85,16 @@ kotlin {
             implementation(libs.bundles.compose.ui)
             implementation(libs.bundles.koin.common)
             implementation(libs.bundles.androidx.lifecycle)
+
+            implementation(project.dependencies.platform(libs.supabase.bom))
+            implementation(libs.postgrest.kt)
+            implementation(libs.realtime.kt)
+            implementation(libs.ktor.client.core)
+
+            implementation(libs.kotlinx.datetime)
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
@@ -67,8 +107,8 @@ android {
         applicationId = "com.plcoding.cmp_memecreator"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "2"
     }
     packaging {
         resources {
